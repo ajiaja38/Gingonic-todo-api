@@ -48,7 +48,7 @@ func main() {
 
 	router.SetupTodoRoutes(r, dbConn, log)
 
-	port := ":8080"
+	port := ":5600"
 	globalPrefix := "api/v1"
 
 	log.Infof("🚀 Application listening on http://0.0.0.0%s/%s", port, globalPrefix)

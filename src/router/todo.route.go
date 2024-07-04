@@ -17,5 +17,6 @@ func SetupTodoRoutes(r *gin.Engine, dbConn *gorm.DB, log *logrus.Logger) {
 	{
 		api.POST("/todo", todoController.Create)
 		api.GET("/todos", todoController.GetAll)
+		api.GET("/todo/:id", todoController.GetById)
 	}
 }

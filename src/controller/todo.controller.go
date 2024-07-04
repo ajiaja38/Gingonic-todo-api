@@ -4,6 +4,7 @@ import (
 	"learning-gin/src/model"
 	"learning-gin/src/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -58,5 +59,38 @@ func (ctrl *TodoController) GetAll(c *gin.Context) {
 		"code":    http.StatusOK,
 		"message": "Success fetching todos",
 		"data":    todos,
+	})
+}
+
+func (ctrl *TodoController) GetById(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+
+	if err != nil {
+		ctrl.Log.Errorf("Invalid ID: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": gin.H{
+			"code":    http.StatusBadRequest,
+			"message": "Invalid ID",
+		}})
+		return
+	}
+
+	todo, err := ctrl.Service.GetById(uint(id))
+
+	if err != nil {
+		ctrl.Log.Errorf("Failed to fetch todo with ID %d: %v", id, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": gin.H{
+				"code":    http.StatusInternalServerError,
+				"message": "Failed to fetch todo",
+			},
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "Success fetching todo",
+		"data":    todo,
 	})
 }
