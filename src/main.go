@@ -39,17 +39,17 @@ func main() {
 	}
 	defer dbConn.Close()
 
+	port := ":5600"
+	globalPrefix := "api/v1"
+
 	r := gin.Default()
 
-	api := r.Group("/api/v1")
+	api := r.Group(globalPrefix)
 	{
 		api.GET("/", welcome)
 	}
 
 	router.SetupTodoRoutes(r, dbConn, log)
-
-	port := ":5600"
-	globalPrefix := "api/v1"
 
 	log.Infof("🚀 Application listening on http://0.0.0.0%s/%s", port, globalPrefix)
 
