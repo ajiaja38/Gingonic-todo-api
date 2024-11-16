@@ -49,7 +49,7 @@ func main() {
 		api.GET("/", welcome)
 	}
 
-	router.SetupTodoRoutes(r, dbConn, log)
+	router.SetupTodoRoutes(api, dbConn, log)
 
 	log.Infof("🚀 Application listening on http://0.0.0.0%s/%s", port, globalPrefix)
 
